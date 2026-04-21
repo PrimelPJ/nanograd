@@ -2,12 +2,12 @@
 
 An automatic differentiation engine built from scratch in TypeScript. No dependencies. Not even a math library.
 
-Every scalar operation builds a computation graph. Call `.backward()` and gradients flow through the entire graph via the chain rule, automatically. Build neurons, layers, and a full MLP on top. Train it on XOR. Watch the loss drop.
+Every scalar operation builds a computation graph. Call `.backward()` and gradients flow through the entire graph via the chain rule - automatically. Build neurons, layers, and a full MLP on top. Train it on XOR. Watch the loss drop.
 
 ```
 $ npm run grad-demo
 
-  nanograd — computation graph demo
+  nanograd - computation graph demo
   ──────────────────────────────────────────────────
   Building: out = tanh(x*w + b)
 
@@ -20,7 +20,7 @@ $ npm run grad-demo
     tanh(…)  = -0.999909
 
   gradients after backward():
-    d(out)/d(out) = 1   (always 1 — seed)
+    d(out)/d(out) = 1   (always 1 - seed)
     d(out)/d(b)   = 0.000182
     d(out)/d(w)   = 0.000364  (x=2 × local_grad)
     d(out)/d(x)   = -0.000546  (w=-3 × local_grad)
@@ -30,7 +30,7 @@ $ npm run grad-demo
     d(out)/d(w) numerical ≈  0.000364
     d(out)/d(b) numerical ≈  0.000182
 
-  analytical and numerical match — chain rule works.
+  analytical and numerical match - chain rule works.
 ```
 
 ```
@@ -57,7 +57,7 @@ $ npm run xor
 
 When you call `loss.backward()` in PyTorch, it computes gradients for every parameter in your network. nanograd is that mechanism, stripped to its essentials.
 
-The core insight: every arithmetic operation on a `Value` records its inputs and how to compute the local gradient. When you do `x.mul(w).add(b).tanh()`, you're not just computing a number — you're building a directed acyclic graph of every operation. `.backward()` walks that graph in reverse topological order, applying the chain rule at each node to propagate gradients back to the inputs.
+The core insight: every arithmetic operation on a `Value` records its inputs and how to compute the local gradient. When you do `x.mul(w).add(b).tanh()`, you're not just computing a number - you're building a directed acyclic graph of every operation. `.backward()` walks that graph in reverse topological order, applying the chain rule at each node to propagate gradients back to the inputs.
 
 That's the entirety of backpropagation. The rest is engineering.
 
@@ -113,7 +113,7 @@ mul(other: Value | number): Value {
 }
 ```
 
-The `+=` is intentional — if a node is used multiple times in the graph, its gradient contributions accumulate (multivariate chain rule).
+The `+=` is intentional - if a node is used multiple times in the graph, its gradient contributions accumulate (multivariate chain rule).
 
 ### Backpropagation (`backward()`)
 
@@ -138,7 +138,7 @@ backward(): void {
 }
 ```
 
-Post-order DFS gives topological order. Reversed, it gives reverse topological order — every node's output gradient is fully accumulated before its `_backward` fires. This is the only ordering that makes the chain rule work.
+Post-order DFS gives topological order. Reversed, it gives reverse topological order - every node's output gradient is fully accumulated before its `_backward` fires. This is the only ordering that makes the chain rule work.
 
 ### Neural network (`src/nn.ts`)
 
@@ -154,13 +154,13 @@ forward(inputs: Value[]): Value {
 }
 ```
 
-There are no matrix operations. Each weight multiplication is a `Value.mul` — every operation is tracked, every gradient is computed.
+There are no matrix operations. Each weight multiplication is a `Value.mul` - every operation is tracked, every gradient is computed.
 
 ---
 
 ## Why XOR?
 
-XOR is the classic proof-of-need for multi-layer networks. The output isn't linearly separable — no single line (or hyperplane) divides the `0` outputs from the `1` outputs. A single neuron with any activation function cannot learn it.
+XOR is the classic proof-of-need for multi-layer networks. The output isn't linearly separable - no single line (or hyperplane) divides the `0` outputs from the `1` outputs. A single neuron with any activation function cannot learn it.
 
 A two-layer network can. The hidden layer learns to transform the input space into one where the classes *are* linearly separable. Backprop figures out those weights automatically.
 
@@ -189,7 +189,7 @@ Analytical and numerical match to 4 decimal places for all implemented operation
 
 ## What I learned
 
-Backpropagation is just the chain rule applied in reverse topological order on a computation graph. That's the whole thing. The reason it feels magical in PyTorch is that the graph is built implicitly as you do math — you never see it. Building it explicitly makes the mechanism obvious.
+Backpropagation is just the chain rule applied in reverse topological order on a computation graph. That's the whole thing. The reason it feels magical in PyTorch is that the graph is built implicitly as you do math - you never see it. Building it explicitly makes the mechanism obvious.
 
 The `+=` on gradients is the part most explanations skip. When a node feeds into two different downstream nodes, it receives gradient contributions from both paths. You accumulate them. This is the multivariate chain rule, not a special case.
 
@@ -210,7 +210,7 @@ The `+=` on gradients is the part most explanations skip. When a node feeds into
 ```
 nanograd/
 ├── src/
-│   ├── value.ts       Value class — autograd primitive
+│   ├── value.ts       Value class - autograd primitive
 │   ├── nn.ts          Neuron, Layer, MLP, loss functions
 │   ├── train.ts       training loop utilities
 │   └── test.ts        21 test cases
@@ -226,6 +226,6 @@ nanograd/
 ## References
 
 - Rumelhart, Hinton & Williams (1986). *Learning representations by back-propagating errors.* Nature.
-- Karpathy, A. (2022). [micrograd](https://github.com/karpathy/micrograd) — the inspiration for this project.
+- Karpathy, A. (2022). [micrograd](https://github.com/karpathy/micrograd) - the inspiration for this project.
 - Goodfellow, Bengio & Courville. *Deep Learning.* Chapter 6: Deep Feedforward Networks.
 - Olah, C. (2015). [Calculus on Computational Graphs: Backpropagation.](https://colah.github.io/posts/2015-08-Backprop/)
