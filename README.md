@@ -2,7 +2,7 @@
 
 An automatic differentiation engine built from scratch in TypeScript. No dependencies. Not even a math library.
 
-Every scalar operation builds a computation graph. Call `.backward()` and gradients flow through the entire graph via the chain rule — automatically. Build neurons, layers, and a full MLP on top. Train it on XOR. Watch the loss drop.
+Every scalar operation builds a computation graph. Call `.backward()` and gradients flow through the entire graph via the chain rule, automatically. Build neurons, layers, and a full MLP on top. Train it on XOR. Watch the loss drop.
 
 ```
 $ npm run grad-demo
