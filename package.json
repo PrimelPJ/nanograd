@@ -1,0 +1,17 @@
+{
+  "name": "nanograd",
+  "version": "1.0.0",
+  "description": "Automatic differentiation engine from scratch. Backprop, neural nets, zero dependencies.",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node dist/src/test.js",
+    "xor": "npm run build && node dist/examples/xor.js",
+    "grad-demo": "npm run build && node dist/examples/grad_demo.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}
